@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title><%= title %></title>
+    <!-- tb 自适应的方案 -->
+    <script src="/js/amfe-flexible/index.js"></script>
+    <script src="/static/javascripts/base.js"></script>
+    <link rel="stylesheet" href="/static/stylesheets/bass.css">
+    <link rel="stylesheet" href="/static/stylesheets/login.css">
+    <!-- <link rel="stylesheet/less" type="text/less" href="/static/stylesheets/login.less"> -->
+</head>
+<body>
+    <!-- <div class="font14">login</div> -->
+    <div>
+        <div class="background header">
+            <div class="background-icon">
+                <img src="/static/images/logo.png" alt="" srcset="">
+            </div>
+            <p class="background-title">Hummingbird</p>
+            <span class="background-subtitle">Sign in to continue</span>
+        </div>
+        <div class="content">
+            <form action="/login" method="post" class="form">
+                <div class="form-item">
+                    <label for="email">Email</label>
+                    <input id="email" name="username" type="text" placeholder="enter_email@example.com">
+                </div>
+                <div class="form-item">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" placeholder="dont less than 6 number">
+                </div>
+                <div class="form-item">
+                    <input type="submit" value="Login" >
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <p>
+                Don't have an account?
+                <a href="/signup"> Sign up</a>
+            </p>
+        </div>
+    </div>
+    <script type="text/javascriptpt">
+        
+    </script>
+</body>
+</html>
