@@ -4,8 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var mongoose = require("mongoose");
+
 var app = express();
 
+// 连接 mongo
+
+// mongoose.connect("mongodb://localhost/music",{ useNewUrlParser: true });
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function() {
+//   // we're connected!
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -16,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/js', express.static(path.join(__dirname, 'node_modules')));
+// app.use('/js', express.static(path.join(__dirname, 'node_modules')));
 
 require("./router")(app)
 
