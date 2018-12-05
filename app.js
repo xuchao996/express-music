@@ -10,12 +10,12 @@ var app = express();
 
 // 连接 mongo
 
-// mongoose.connect("mongodb://localhost/music",{ useNewUrlParser: true });
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function() {
-//   // we're connected!
-// });
+mongoose.connect("mongodb://localhost/music",{ useNewUrlParser: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

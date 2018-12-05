@@ -14,14 +14,16 @@ router.post('/', function (req, res, next) {
     username: req.body.username,
     password: req.body.password
   }
+  // 数据库查询
   UserModel.find({username: data.username}, function (err, user) {
     if (err) next(err)
     // 创建用户
-    if (!user) {
+    if (!user.length) {
       UserModel.create(data, function (err, user) {
         if (err) next(err)
         console.log(user)
       })
+      res.send(data.username + " is created")
     } else {
       res.send(data.username + "is existed");
     }
