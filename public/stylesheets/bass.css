@@ -12,6 +12,7 @@ legend {color:#000}
 fieldset,img {border:0}  
 button,input,select,textarea {font-size:100%; outline:none}  
 table {border-collapse:collapse;border-spacing:0}  
+html,body {height: 100%; width:100%;}
 
 input {
     border: 0;
