@@ -14,6 +14,14 @@ router.post('/', function (req, res, next) {
     username: req.body.username,
     password: req.body.password
   }
+  // 密码加密
+  const crypto = require("crypto");
+
+  const hash = crypto.createHash("md5");
+  
+  hash.update(data.password);
+  // 不可逆
+  data.password = hash.digest('hex');
   // 数据库查询
   UserModel.find({username: data.username}, function (err, user) {
     if (err) next(err)
