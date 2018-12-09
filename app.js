@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session')
 
 var mongoose = require("mongoose");
 
@@ -16,6 +17,14 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
 });
+
+// 设置session
+app.use(session({
+  secret: 'hello_music',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {maxAge: 1000 * 60 * 2}
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -45,5 +54,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// 密码加密
+const crypto = require("crypto");
+const encrypt = function (value) {
+  const hash = crypto.createHash("md5");
+  hash.update(value);
+  return hash.digest('hex');
+}
+global.encrypt = encrypt
 
 module.exports = app;

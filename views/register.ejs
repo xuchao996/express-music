@@ -28,7 +28,7 @@
             <form action="/login" method="post" class="form">
                 <div class="form-item">
                     <label for="name">Name</label>
-                    <input id="name" name="username" type="text" placeholder="Please type full name">
+                    <input id="username" name="username" type="text" placeholder="Please type full name">
                 </div>
                 <div class="form-item">
                     <label for="email">Email</label>
@@ -46,7 +46,7 @@
         <div class="footer">
             <p>
                 Don't have an account?
-                <a href="/signup"> Sign up</a>
+                <a href="/login"> Sign up</a>
             </p>
         </div>
     </div>
@@ -68,13 +68,15 @@
             }
         }
         $("#submit").on("click", function () {
-            var user = $("#email").val()
+            var user = $("#username").val()
+            var email = $("#email").val()
             var pass = $("#password").val()
             if (vaidate(user) && vaidate(pass)) {
-                $.ajax('/login', {
+                $.ajax('/register', {
                     method: 'post',
                     data: {
                         username: user,
+                        email: email,
                         password: pass
                     }
                 }, function (data) {

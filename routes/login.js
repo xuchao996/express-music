@@ -14,27 +14,27 @@ router.post('/', function (req, res, next) {
     username: req.body.username,
     password: req.body.password
   }
-  // 密码加密
-  const crypto = require("crypto");
-
-  const hash = crypto.createHash("md5");
-  
-  hash.update(data.password);
-  // 不可逆
-  data.password = hash.digest('hex');
+  data.password = global.encrypt(data.password)
   // 数据库查询
   UserModel.find({username: data.username}, function (err, user) {
     if (err) next(err)
     // 创建用户
-    if (!user.length) {
-      UserModel.create(data, function (err, user) {
-        if (err) next(err)
-        console.log(user)
+    console.log(user)
+    if (user[0].password === data.password) {
+      req.session.user = data.username
+      res.status(200).json({
+        errcode: 0,
+        msg: '登陆成功！',
+        user: req.session.user
       })
-      res.send(data.username + " is created")
     } else {
-      res.send(data.username + "is existed");
+      res.status(200).json({
+        errcode: 1,
+        msg: '密码或账号出错，请重新登陆！'
+      })
+
     }
+    // res.json(data.username + "is existed");
   })
 })
 
