@@ -76,6 +76,14 @@
                     },
                     success: function (data) {
                         console.log(data);
+                        if (data.errcode === 0) {
+                            let st = window.confirm('登陆成功，点击确认跳转到首页')
+                            if (st) {
+                                window.location.href = '/'
+                            }
+                        } else {
+                            window.alert(data.msg)
+                        }
                     }, error: function (err) {
                         console.log(err);
                     },
