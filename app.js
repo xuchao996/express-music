@@ -23,7 +23,7 @@ app.use(session({
   secret: 'hello_music',
   resave: false,
   saveUninitialized: false,
-  cookie: {maxAge: 1000 * 60 * 2}
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}
 }))
 
 // view engine setup

@@ -5,47 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/static/javascripts/amfe-flexible/index.js"></script>
     <script src="/static/javascripts/base.js"></script>
     <!-- cdn -->
     <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.js"></script>
-    <link rel="stylesheet" href="/static/stylesheets/style.css" />
     <link rel="stylesheet" href="/static/stylesheets/bass.css">
-    <link rel="stylesheet" href="/static/stylesheets/music.css">
+    <link rel="stylesheet" href="/static/stylesheets/global.css">
   </head>
   <body>
     <div class="music">
       <header class="header">
-        <span class="back_color back">
+        <span class="back_color">
           <i></i>
           Back
         </span>
         <span><%= title %></span>
-        <a class="search" href="/search">
+        <span class="Search">
           Search
-        </a>
+        </span>
       </header>
       <div class="content">
-        <div class="content-tabs">
-          <div class="item-tab">
-            <%= recommend %> 
-          </div>
-          <div class="item-tab item-tab__active">
-            <%= new_release %> 
-          </div>
-          <div class="item-tab">
-            <%= top_of %> 
-          </div>
-        </div>
+        
       </div>
     </div>
-    <script type="text/javascript">
-      if (!$) {
-        widow.alert("该浏览器不支持 Jquery")
-      }
-      $(".back").onclick = function () {
-        window.history.back()
-      }
-    </script>
   </body>
 </html>

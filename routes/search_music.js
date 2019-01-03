@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', global.utils.checkNotLogin);
 
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Search'});
+    res.render('search', {title: 'Search'});
 });
 
 module.exports = router;
