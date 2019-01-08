@@ -7,3 +7,9 @@
 
 .main_color {color: #3d3e40;}
 .back_color, .search {color: #9da0a6;}
+
+header {
+  width: 100%;
+  height: 100%;
+  font-size: 1.2rem;
+}

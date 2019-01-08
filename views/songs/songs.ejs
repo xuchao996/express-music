@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title><%= title %></title>
+    <script src="/static/javascripts/amfe-flexible/index.js"></script>
+    <script src="/static/javascripts/base.js"></script>
+    <script src="/static/javascripts/utils.js"></script>
+    <!-- cdn -->
+    <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.js"></script>
+    <!-- ui lib -->
+    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.js"></script>
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.css">
+
+    <link rel="stylesheet" href="/static/stylesheets/style.css" />
+    <link rel="stylesheet" href="/static/stylesheets/bass.css">
+    <style>
+        .songs header {
+            width: 100%;
+            font-size: 1.2rem;
+            height: 27.4rem;
+            position: relative;
+        }
+        .header-content {
+            width: 100%;
+            height: 100%;
+            padding: 2rem;
+            background: rgba(100, 100, 100, 0.2);
+        }
+        .header-content img {
+            width: 4rem;
+            height: 4rem;
+            margin-right: 10px;
+        }
+        .header-bg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+        .header-bg:after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: inherit;
+            filter: blur(4px);
+        }
+        .content {
+            padding-top: 15px;
+            padding-left: 15px;
+            padding-right: 15px; 
+        }
+        .content .songs-list {
+            padding-top: 20px;
+        }
+        .content .songs-list li {
+            height: 60px;
+            padding: 10px 0;
+            overflow: hidden;
+        }
+        .content .songs-item__title {
+            display: inline-block;
+            width: 80%;
+            font-size: 1.6rem;
+            color: #000;
+            font-weight: 400;
+            overflow: hidden;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="songs">
+        <header>
+            <div class="header-content">
+                <img class="header-img" src="<%= cover_img_url %>" />
+                <span class="header-title"></span>
+            </div>
+            <div class="header-bg" style="background:url('<%= cover_img_url%>')"></div>
+        </header>
+        <div class="content">
+            <h4>歌单 共<%= songnum %>首</h4>
+            <ul class="songs-list">
+                <% tracks.forEach(item => { %>
+                    <li class="songs-item">
+                        <span class="songs-item__title" title="<%= item.title %>">
+                            <%= item.title %>
+                        </span>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+  </body>
+</html>

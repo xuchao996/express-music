@@ -8,9 +8,11 @@
 
 @main_color: #3d3e40;
 @other_color: #9da0a6;
+
 .music {
   width: 100%;
   height: 100%;
+  font-size: 1.2rem;
   header {
     width: 100%;
     height: 45px;
@@ -26,10 +28,14 @@
     }
   }
   & > .content {
+    width: 100%;
+    > div {
+      width: 100%;
+      overflow-x: scroll;
+    }
     .content-tabs {
-      overflow-x: auto;
       height: 45px;
-      line-height: 45px;
+      width: 120%;
       padding-left: 15px;
       padding-right: 15px;
       .item-tab {
@@ -42,6 +48,16 @@
           color: @main_color;
         }
 
+      }
+    }
+    .songs_list {
+      li {
+        height: 6rem;
+        img {
+          width: 5rem;
+          height: 5rem;
+          margin-right: 15px;
+        }
       }
     }
   }

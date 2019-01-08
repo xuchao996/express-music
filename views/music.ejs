@@ -7,11 +7,17 @@
     <title><%= title %></title>
     <script src="/static/javascripts/amfe-flexible/index.js"></script>
     <script src="/static/javascripts/base.js"></script>
+    <script src="/static/javascripts/utils.js"></script>
     <!-- cdn -->
     <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.js"></script>
+    <!-- ui lib -->
+    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.js"></script>
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.css">
+
     <link rel="stylesheet" href="/static/stylesheets/style.css" />
     <link rel="stylesheet" href="/static/stylesheets/bass.css">
     <link rel="stylesheet" href="/static/stylesheets/music.css">
+    
   </head>
   <body>
     <div class="music">
@@ -26,26 +32,64 @@
         </a>
       </header>
       <div class="content">
-        <div class="content-tabs">
-          <div class="item-tab">
-            <%= recommend %> 
-          </div>
-          <div class="item-tab item-tab__active">
-            <%= new_release %> 
-          </div>
-          <div class="item-tab">
-            <%= top_of %> 
+        <div class="am-tabs" data-am-tabs="{noSwipe: 1}" id="doc-tab-demo-1">
+          <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li class="am-active"><a href="javascript: void(0)"><%= recommend %></a></li>
+            <li id="songsList"><a href="javascript: void(0)"><%= new_release %></a></li>
+            <li><a href="javascript: void(0)"><%= top_of %></a></li>
+          </ul>
+
+          <div class="am-tabs-bd">
+            <div class="am-tab-panel am-active">
+              <ul>
+                <% list.forEach(item => { %>
+                <li data-mid="<%= item.data.albummid %>"><%= item.data.songname %></li>
+                <% }) %>
+              </ul>
+            </div>
+            <div class="am-tab-panel">
+              <ul class="songs_list">
+              </ul>
+            </div>
+            <div class="am-tab-panel">
+              ...
+            </div>
           </div>
         </div>
+
       </div>
     </div>
     <script type="text/javascript">
       if (!$) {
         widow.alert("该浏览器不支持 Jquery")
       }
-      $(".back").onclick = function () {
+      $(".back").on('click', function () {
         window.history.back()
-      }
+      })
+      $("#songsList").on('click', function () {
+        $.ajax({
+          url: '/music/songslist?offset=0',
+          success: function (data) {
+            console.log(data)
+            var html = ''
+            $.each(data, function (index, item) {
+              html += '<li data-id="'+ item.id +'" data-url="'+ item.source_url+'"><img src="'+ item.cover_img_url +'" />'
+              + '<span>'+ item.title +'</span>'
+              + '</li>'
+            })
+            $('.songs_list').html(html)
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        })
+      })
+      $(".songs_list").on('click', function (event) {
+        let result = findTargetTag(event, 'ul', 'li');
+        console.log(result)
+        let listId = $(result).attr("data-id").split('_')[1];
+        window.location.href = '/music/songs/' + listId
+      })
     </script>
   </body>
 </html>
