@@ -139,6 +139,35 @@ function qq_convert_song (song) {
     return d
 }
 
+// 获取 music token
+function getMusic (songmid, err, success) {
+    // 文件名称和类型
+    var filename = 'C400' + songmid + '.m4a'
+    getMusicToken(songmid).then(function (response) {
+        var musicurl = 'http://ws.stream.qqmusic.qq.com/' + filename + '?fromtag=0&guid=126548448'+
+        '&vkey=' + response.vkey
+        success({
+            music_url: musicurl
+        })
+    })
+}
+function getMusicToken (songmid) {
+    return new Promise(function (reslove) {
+        var filename = 'C400' + songmid + '.m4a'
+        var tokenurl = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?'+
+                'format=json205361747&platform=yqq&cid=205361747&' +
+                'songmid=' + songmid + '&filename=' + filename + '&guid=126548448'
+        request({
+            method: "GET",
+            url: tokenurl,
+        }, function (_err, _res, _resBody) {
+            var res = JSON.parse(_resBody);
+            reslove(res.data.items[0])
+        })
+    })
+}
+
+
 router.get('/', function (req, res, next) {
     // let url = "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8¬ice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472"
     getRandomList(function (err){
@@ -170,6 +199,16 @@ router.get('/songs/:id', function (req, res, next) {
         next(err)
     }, function (data) {
         res.render('./songs/songs', data)
+    })
+})
+
+// 音乐播放
+router.get('/song/:id', function (req, res, next) {
+    var musicid = req.params.id
+    getMusic(musicid, function (err) {
+        next(err);
+    }, function (data) {
+        res.status(200).json(data)
     })
 })
 

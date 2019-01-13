@@ -78,6 +78,9 @@
             font-size: 1.6rem;
             background-color: #006aff;
         }
+        .header-player {
+            height: 60px;
+        }
         .header-bg {
             width: 100%;
             height: 100%;
@@ -108,6 +111,9 @@
         .content .songs-list li {
             height: 60px;
             overflow: hidden;
+        }
+        .songs-list .songs-item__current {
+            color: #006aff;
         }
         .songs-item__body {
             display: flex;
@@ -145,12 +151,20 @@
                 </div>
             </div>
             <div class="header-bg" style="background:url('<%= cover_img_url%>')"></div>
+            <div class="header-player" id="header-player">
+                <audio controls autoplay src></audio>
+            </div>
+            <div class="player">
+                <button id="plaing">播放/暂停</button>
+                <button id="nextSong">上一首</button>
+                <button id="preSong">下一首</button>
+            </div>
         </header>
         <div class="content">
             <h4>歌单 共<%= songnum %>首</h4>
-            <ul class="songs-list">
-                <% tracks.forEach(item => { %>
-                    <li class="songs-item" data-id="<%= item.id%>" data-albumid="<%= item.album_id%>">
+            <ul class="songs-list" id="songs-list">
+                <% tracks.forEach((item, index) => { %>
+                    <li class="songs-item" data-id="<%= item.id%>" data-index="<%= index%>">
                         <div class="songs-item__body">
                             <h3 class="songs-item__title" title="<%= item.title %>">
                                 <%= item.title %>
@@ -170,5 +184,67 @@
             </ul>
         </div>
     </div>
+    <script type="text/javascript">
+        var currentIndex = 0;
+        var $audio = $("#header-player").find("audio");
+        var _audio = document.getElementById("header-player").children[0];
+        $("#songs-list").on("click", function (event) {
+            console.log(event);
+            var res = findTargetTag(event, 'ul', 'li');
+            if ($(res).hasClass("songs-item__current")) {
+                _audio.pause();
+                return
+            }
+            $(this).find("li").removeClass("songs-item__current");
+            $(res).addClass("songs-item__current");
+            var songid = res.dataset.id.split("_")[1]
+            currentIndex = res.dataset.index
+            player(songid);
+        })
+        $("#plaing").on("click", function () {
+            if (audio.paused) {
+                play("play");
+            } else {
+                play("pause");
+            }
+        })
+        $("#nextSong").on("click", function () {
+            currentIndex-=2;
+            nextPlayer()
+        })
+        $("#preSong").on("click", function () {
+            nextPlayer()
+        })
+        // 监听结束播放事件
+        _audio.addEventListener("ended", function () {
+            nextPlayer()
+        })
+        function play (type) {
+            var dom = _audio;
+            if (type == 'pause') dom.pause();
+            else dom.play()
+        }
+        function player (songid) {
+            // 发起ajax请求
+            $.ajax({
+                url: "/music/song/" + songid,
+                success: function (data) {
+                    console.log( )
+                    $audio.attr("src", data["music_url"]);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
+        function nextPlayer () {
+            ++currentIndex;
+            var $res = $("#songs-list").find("li").eq(Number(currentIndex));
+            $("#songs-list").find("li").removeClass("songs-item__current");
+            $res.addClass("songs-item__current");  
+            var songid = $res.attr('data-id').split("_")[1];
+            player(songid);
+        }
+    </script>
   </body>
 </html>
