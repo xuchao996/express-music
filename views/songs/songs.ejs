@@ -17,22 +17,66 @@
     <link rel="stylesheet" href="/static/stylesheets/style.css" />
     <link rel="stylesheet" href="/static/stylesheets/bass.css">
     <style>
+        @import url(/static/stylesheets/global.css);
+        /* .main_bg {background-color: #006aff;} */
         .songs header {
             width: 100%;
             font-size: 1.2rem;
-            height: 27.4rem;
             position: relative;
+            overflow: hidden;
         }
         .header-content {
             width: 100%;
             height: 100%;
             padding: 2rem;
-            background: rgba(100, 100, 100, 0.2);
+            background: rgba(0, 0, 0, 0.5);
         }
-        .header-content img {
-            width: 4rem;
-            height: 4rem;
+        .header-info {
+            width: 100%;
+            height: 12.5rem;
+            display: flex;
+            padding-top: 20px;
+        }
+        .header-info__logo {
+            width: 12.5rem;
+            height: 6rem;
             margin-right: 10px;
+        }
+        .header-info__logo img {
+            width: 100%;
+        }
+        .header-info__title {
+            font-weight: 400;
+            font-size: 2rem;
+            color: #fff;
+        }
+        .header-option {
+            height: 40px;
+            text-align: center;
+        }
+        .btn {
+            display:-moz-box;
+            -moz-box-pack:center;
+            -moz-box-align:center;
+
+            /* Safari、Opera 以及 Chrome */
+            display:-webkit-box;
+            -webkit-box-pack:center;
+            -webkit-box-align:center;
+
+            /* W3C */
+            display:box;
+            box-pack:center;
+            box-align:center;
+            height: 40px;
+            width: 12rem;
+            min-width: 130px;
+            margin: 0 auto;
+            padding: 0 20px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 1.6rem;
+            background-color: #006aff;
         }
         .header-bg {
             width: 100%;
@@ -41,6 +85,8 @@
             top: 0;
             left: 0;
             z-index: -2;
+            filter: blur(36px);
+            /* object-fit: cover; */
         }
         .header-bg:after {
             content: "";
@@ -50,7 +96,6 @@
             top: 0;
             left: 0;
             background: inherit;
-            filter: blur(4px);
         }
         .content {
             padding-top: 15px;
@@ -58,19 +103,27 @@
             padding-right: 15px; 
         }
         .content .songs-list {
-            padding-top: 20px;
+            padding-top: 10px;
         }
         .content .songs-list li {
             height: 60px;
-            padding: 10px 0;
             overflow: hidden;
         }
-        .content .songs-item__title {
-            display: inline-block;
-            width: 80%;
-            font-size: 1.6rem;
-            color: #000;
+        .songs-item__body {
+            display: flex;
+            flex-direction: column;
+        }
+        .songs-item__body p {
+            display: flex;
+        }
+        .songs-item__body span {
+            font-weight: 100;
+            font-size: 1.3rem;
+            color: #777;
+        }
+        .songs-item__body .songs-item__title {
             font-weight: 400;
+            font-size: 1.6rem;
             overflow: hidden;
         }
     </style>
@@ -78,9 +131,18 @@
   <body>
     <div class="songs">
         <header>
-            <div class="header-content">
-                <img class="header-img" src="<%= cover_img_url %>" />
-                <span class="header-title"></span>
+            <div class="header-content" data-id="<%= id%>">
+                <div class="header-info">
+                    <div class="header-info__logo">
+                        <img src="<%= cover_img_url %>" />
+                    </div>
+                    <h2 class="header-info__title">
+                        <%= title %>
+                    </h2>
+                </div>
+                <div class="header-option">
+                    <div class="btn main_bg ">play all</div>
+                </div>
             </div>
             <div class="header-bg" style="background:url('<%= cover_img_url%>')"></div>
         </header>
@@ -88,10 +150,21 @@
             <h4>歌单 共<%= songnum %>首</h4>
             <ul class="songs-list">
                 <% tracks.forEach(item => { %>
-                    <li class="songs-item">
-                        <span class="songs-item__title" title="<%= item.title %>">
-                            <%= item.title %>
-                        </span>
+                    <li class="songs-item" data-id="<%= item.id%>" data-albumid="<%= item.album_id%>">
+                        <div class="songs-item__body">
+                            <h3 class="songs-item__title" title="<%= item.title %>">
+                                <%= item.title %>
+                            </h3>
+                            <p>
+                                <span class="songs-item__artist" title="<%= item.artist %>" data-artistid="<%= item.artist_id%>">
+                                    <%= item.artist %>
+                                </span>
+                                &nbsp;-&nbsp;
+                                <span class="songs-item__album" title="<%= item.album %>" data-albumid="<%= item.album_id %>">
+                                    <%= item.album %>
+                                </span>
+                            </p>
+                        </div>
                     </li>
                 <% }) %>
             </ul>
